@@ -1,10 +1,8 @@
 <?php
 
-
 use Illuminate\Support\Facades\Route;
-use App\Models\Newsletter;
-use App\Http\Controllers\NewsletterController;
-
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ApplyJobController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,23 +18,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/contactus', function () {
-    return view('contactus');
-});
+Route::view('/home','home');
 
-Route::post('/contactus', function () {
-    $message=new Newsletter();
-    $message->name=request('name');
-    $message->email=request('email');
-    $message->message=request('message');
-    $message->save();
-});
+Route::get('/job',[AdminController::class,'ShowJob']);
+
+Route::get('/job/{id}',[AdminController::class,'ShowSelectJob']);
+
+Route::post('/job',[AdminController::class,'CreateJob']);
 
 
+Route::get('/job/delete/{id}',[AdminController::class,'DeleteJob']);
 
-// Route::get('/home', function () {
-//     return view('home');
-// });
-Route::view('/home', 'home');
-Route::view('/message', 'message');
-Route::get('/message','App\Http\Controllers\NewsletterController@index');
+Route::get('/apply/{id}',[ApplyJobController::class,'ApplyForm']);
+Route::post('/apply/{id}',[ApplyJobController::class,'NewApplication']);
